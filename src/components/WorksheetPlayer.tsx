@@ -18,6 +18,8 @@ import {
   HelpCircle,
   Maximize2,
   Sparkles,
+  MessageSquareQuote,
+  Lightbulb,
 } from 'lucide-react';
 
 interface WorksheetPlayerProps {
@@ -37,6 +39,7 @@ export const WorksheetPlayer: React.FC<WorksheetPlayerProps> = ({
   const [userAnswers, setUserAnswers] = useState<Record<string, string>>({});
   const [isScratchpadOpen, setIsScratchpadOpen] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [reflectionNote, setReflectionNote] = useState('');
 
   // Timer State
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
@@ -159,6 +162,7 @@ export const WorksheetPlayer: React.FC<WorksheetPlayerProps> = ({
       completedAt: new Date().toISOString(),
       passed,
       userAnswers,
+      reflectionNote: reflectionNote.trim() || undefined,
     };
 
     onFinishWorksheet(attempt);
@@ -321,6 +325,88 @@ export const WorksheetPlayer: React.FC<WorksheetPlayerProps> = ({
                 </div>
               );
             })}
+          </div>
+        </div>
+
+        {/* --- LEARNING REFLECTION NOTE (Refleksi Belajar Mandiri) --- */}
+        <div className="p-3.5 rounded-xl bg-gradient-to-br from-indigo-50/70 via-indigo-50/30 to-purple-50/40 dark:from-indigo-950/40 dark:via-slate-900 dark:to-purple-950/30 border border-indigo-100 dark:border-indigo-900/60 space-y-2.5">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-1.5">
+              <div className="w-6 h-6 rounded-md bg-indigo-600 text-white flex items-center justify-center shadow-xs">
+                <MessageSquareQuote className="w-3.5 h-3.5" />
+              </div>
+              <div>
+                <h4 className="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+                  <span>Catatan Refleksi Belajar (Learning Reflection)</span>
+                  <span className="text-[10px] font-normal text-indigo-600 dark:text-indigo-400 font-mono">
+                    • 1 Kalimat
+                  </span>
+                </h4>
+                <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                  Tuliskan 1 kalimat: apa hal baru yang dipelajari atau hal yang terasa menantang hari ini?
+                </p>
+              </div>
+            </div>
+            <span className="hidden sm:inline-flex items-center gap-1 px-2 py-0.5 rounded bg-indigo-100/80 dark:bg-indigo-900/60 text-indigo-700 dark:text-indigo-300 text-[10px] font-medium">
+              <Lightbulb className="w-3 h-3 text-amber-500" />
+              Refleksi harian
+            </span>
+          </div>
+
+          {/* Quick starter chips */}
+          <div className="flex flex-wrap gap-1.5 text-[10px]">
+            <span className="text-slate-400 dark:text-slate-500 text-[10px] self-center mr-0.5">
+              Contoh cepat:
+            </span>
+            <button
+              type="button"
+              onClick={() =>
+                setReflectionNote((prev) =>
+                  prev ? `${prev} ` : 'Hari ini saya semakin paham konsep '
+                )
+              }
+              className="px-2 py-1 rounded bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-indigo-300 dark:hover:border-indigo-600 text-slate-600 dark:text-slate-300 text-[10px] cursor-pointer transition-colors"
+            >
+              "Hari ini saya semakin paham konsep..."
+            </button>
+            <button
+              type="button"
+              onClick={() =>
+                setReflectionNote((prev) =>
+                  prev ? `${prev} ` : 'Bagian yang paling menantang bagi saya adalah '
+                )
+              }
+              className="px-2 py-1 rounded bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-indigo-300 dark:hover:border-indigo-600 text-slate-600 dark:text-slate-300 text-[10px] cursor-pointer transition-colors"
+            >
+              "Bagian yang paling menantang adalah..."
+            </button>
+            <button
+              type="button"
+              onClick={() =>
+                setReflectionNote((prev) =>
+                  prev ? `${prev} ` : 'Kecepatan dan ketelitian hitungan saya hari ini terasa lebih baik.'
+                )
+              }
+              className="px-2 py-1 rounded bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-indigo-300 dark:hover:border-indigo-600 text-slate-600 dark:text-slate-300 text-[10px] cursor-pointer transition-colors"
+            >
+              "Kecepatan & ketelitian terasa lebih baik."
+            </button>
+          </div>
+
+          <div className="relative">
+            <textarea
+              id="input-reflection-note"
+              rows={2}
+              value={reflectionNote}
+              onChange={(e) => setReflectionNote(e.target.value)}
+              placeholder="Contoh: Saya belajar cara menyederhanakan pecahan aljabar dengan menyamakan faktor persekutuan."
+              className="w-full p-2.5 text-xs bg-white dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white placeholder-slate-400 focus:outline-hidden focus:ring-1 focus:ring-indigo-500 transition-colors resize-none"
+            />
+            {reflectionNote && (
+              <div className="text-right text-[10px] text-slate-400 dark:text-slate-500 font-mono mt-0.5">
+                {reflectionNote.length} karakter • Disimpan ke riwayat belajar
+              </div>
+            )}
           </div>
         </div>
 

@@ -21,7 +21,7 @@ import {
 import { getWorksheetData } from './data/levelsData';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
-import { LoginModal } from './components/LoginModal';
+import { HomeLanding } from './components/HomeLanding';
 import { DiagnosticPretest } from './components/DiagnosticPretest';
 import { LevelOverview } from './components/LevelOverview';
 import { WorksheetPlayer } from './components/WorksheetPlayer';
@@ -148,14 +148,12 @@ export default function App() {
 
       {/* Main App Content View Switcher */}
       <main className="flex-1 flex flex-col">
-        {/* LOGIN VIEW */}
+        {/* HOME & LOGIN LANDING VIEW */}
         {currentView === 'login' && (
-          <div className="flex-1 flex items-center justify-center p-4">
-            <LoginModal
-              onLoginSuccess={handleLoginSuccess}
-              onTrialLogin={handleTrialLogin}
-            />
-          </div>
+          <HomeLanding
+            onLoginSuccess={handleLoginSuccess}
+            onTrialLogin={handleTrialLogin}
+          />
         )}
 
         {/* PRE-TEST / DIAGNOSTIC VIEW */}

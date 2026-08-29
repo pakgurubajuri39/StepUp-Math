@@ -78,6 +78,7 @@ export interface WorksheetAttempt {
   completedAt: string; // ISO date
   passed: boolean;
   userAnswers: Record<string, string>;
+  reflectionNote?: string; // Catatan refleksi belajar 1 kalimat oleh siswa
 }
 
 export interface StudentProfile {

@@ -201,7 +201,7 @@ export const WorksheetPlayer: React.FC<WorksheetPlayerProps> = ({
                   : 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300'
               }`}
             >
-              {passed ? 'Lulus Standar Kumon' : 'Perlu Pengulangan Repetisi'}
+              {passed ? 'Lulus Standar StepUp Math' : 'Perlu Pengulangan Repetisi'}
             </span>
           </div>
 
@@ -212,7 +212,7 @@ export const WorksheetPlayer: React.FC<WorksheetPlayerProps> = ({
           <p className="text-xs text-slate-500 dark:text-slate-400">
             {passed
               ? 'Selamat! Ketepatan dan kecepatan kamu telah memenuhi target level.'
-              : 'Kumon menekankan repetisi hingga mencapai penguasaan mandiri 100%.'}
+              : 'StepUp Math menekankan repetisi hingga mencapai penguasaan mandiri 100%.'}
           </p>
         </div>
 

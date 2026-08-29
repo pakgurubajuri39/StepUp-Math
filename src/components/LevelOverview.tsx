@@ -74,7 +74,7 @@ export const LevelOverview: React.FC<LevelOverviewProps> = ({
           </div>
 
           <h1 className="text-xl sm:text-2xl font-black tracking-tight">
-            Kurikulum Matematika StepUp Kumon
+            Kurikulum Matematika StepUp Math
           </h1>
 
           <p className="text-indigo-100 text-xs max-w-2xl leading-relaxed">
@@ -115,7 +115,7 @@ export const LevelOverview: React.FC<LevelOverviewProps> = ({
           <div className="flex items-center justify-between px-1">
             <h2 className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 flex items-center gap-1.5">
               <BookOpen className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
-              <span>Jenjang Kumon (18 Level)</span>
+              <span>Jenjang StepUp Math (18 Level)</span>
             </h2>
             <span className="text-[11px] font-mono text-slate-400">
               {profile.unlockedLevels.length}/18 Terbuka

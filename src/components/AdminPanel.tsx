@@ -89,7 +89,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
             Manajemen Kurikulum & Unduh PDF
           </h1>
           <p className="text-slate-300 text-xs max-w-2xl">
-            Akses tak terbatas untuk semua 18 Level Kumon (6A s/d M), cetak lembar kerja mandiri
+            Akses tak terbatas untuk semua 18 Level StepUp Math (6A s/d M), cetak lembar kerja mandiri
             (LKS) format PDF dengan kunci jawaban & footer <strong>@copyright by Pak GuruAI</strong>.
           </p>
         </div>
@@ -145,7 +145,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
             <div className="p-4 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-xs space-y-3">
               <h3 className="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1.5 font-mono">
                 <BookOpen className="w-3.5 h-3.5 text-indigo-600" />
-                <span>1. Pilih Jenjang Kumon</span>
+                <span>1. Pilih Jenjang StepUp Math</span>
               </h3>
 
               {/* 18 Levels Grid */}
@@ -251,7 +251,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                     Preview Lembar Kerja: {activeWorksheet.title}
                   </h3>
                   <p className="text-[10px] text-slate-400 font-mono">
-                    Standar Cetak A4 Kumon • {activeWorksheet.problems.length} Soal • Target {activeWorksheet.targetMinutes} Menit
+                    Standar Cetak A4 StepUp Math • {activeWorksheet.problems.length} Soal • Target {activeWorksheet.targetMinutes} Menit
                   </p>
                 </div>
 

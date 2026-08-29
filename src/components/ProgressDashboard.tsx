@@ -68,7 +68,7 @@ export const ProgressDashboard: React.FC<ProgressDashboardProps> = ({
             <span>Grafik & Analisis Progres Belajar</span>
           </h1>
           <p className="text-xs text-slate-500 dark:text-slate-400">
-            Pantau perkembangan materi matematika Kumon, akurasi, dan kecepatan berhitung SCT.
+            Pantau perkembangan materi matematika StepUp Math, akurasi, dan kecepatan berhitung SCT.
           </p>
         </div>
 
@@ -174,7 +174,7 @@ export const ProgressDashboard: React.FC<ProgressDashboardProps> = ({
             <div className="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-slate-800">
               <h2 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
                 <Sparkles className="w-4 h-4 text-indigo-600" />
-                <span>Peta Jenjang Kumon (Staircase Model 6A s/d M)</span>
+                <span>Peta Jenjang StepUp Math (Staircase Model 6A s/d M)</span>
               </h2>
               <span className="text-[11px] text-slate-500 font-mono">
                 {levelMastery.filter((l) => l.isMastered).length}/18 Level Selesai
@@ -365,7 +365,7 @@ export const ProgressDashboard: React.FC<ProgressDashboardProps> = ({
               Grafik Kecepatan Waktu Tempuh vs Standar SCT
             </h2>
             <p className="text-xs text-slate-400">
-              SCT (Standard Completion Time) adalah tolok ukur ketangkasan mental matematika Kumon.
+              SCT (Standard Completion Time) adalah tolok ukur ketangkasan mental matematika StepUp Math.
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-1">
@@ -397,7 +397,7 @@ export const ProgressDashboard: React.FC<ProgressDashboardProps> = ({
 
           <div className="space-y-1">
             <span className="text-[10px] uppercase font-extrabold tracking-widest text-amber-600 dark:text-amber-400 font-mono">
-              SERTIFIKAT KELULUSAN JENJANG KUMON
+              SERTIFIKAT KELULUSAN JENJANG STEPUP MATH
             </span>
             <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white">
               {profile.name}

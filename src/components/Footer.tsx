@@ -11,7 +11,7 @@ export const Footer: React.FC = () => {
         </span>
         <span className="hidden md:inline text-slate-300 dark:text-slate-700">•</span>
         <span className="hidden md:inline text-slate-500 dark:text-slate-400">
-          Aplikasi Belajar Mandiri Matematika Model Kumon (Level 6A - M)
+          Aplikasi Belajar Mandiri Matematika Berjenjang (Level 6A - M)
         </span>
       </div>
 

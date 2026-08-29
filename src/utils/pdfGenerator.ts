@@ -29,7 +29,7 @@ export function generateWorksheetPDF(
 
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(8.5);
-    doc.text('Aplikasi Belajar Mandiri Matematika Model Kumon', margin + 4, margin + 13.5);
+    doc.text('Aplikasi Belajar Mandiri Matematika Berjenjang', margin + 4, margin + 13.5);
 
     // Level Badge right
     doc.setFillColor(79, 70, 229); // Indigo-600
@@ -100,7 +100,7 @@ export function generateWorksheetPDF(
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(7.5);
     doc.setTextColor(148, 163, 184);
-    doc.text('StepUp Math - Lembar Kerja Mandiri Berstandar Kumon', pageWidth / 2, pageHeight - margin - 2, {
+    doc.text('StepUp Math - Lembar Kerja Mandiri Berjenjang', pageWidth / 2, pageHeight - margin - 2, {
       align: 'center',
     });
     doc.text(`Halaman ${pageNo} dari ${totalPages}`, pageWidth - margin, pageHeight - margin - 2, { align: 'right' });

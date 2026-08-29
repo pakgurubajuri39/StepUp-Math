@@ -51,8 +51,8 @@ export const Header: React.FC<HeaderProps> = ({
           <h1 className="text-lg sm:text-xl font-bold tracking-tight text-slate-800 dark:text-white leading-none">
             StepUp <span className="text-indigo-600 dark:text-indigo-400">Math</span>
           </h1>
-          <p className="text-[10px] text-slate-400 dark:text-slate-400 uppercase tracking-widest font-semibold mt-1">
-            Kumon-Style Learning System
+          <p className="text-[10px] text-slate-400 dark:text-slate-400 uppercase tracking-widest font-bold mt-1">
+            KUMON STYLE LEARNING SYSTEM
           </p>
         </div>
       </div>

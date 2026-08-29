@@ -135,7 +135,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({ onLoginSuccess, onTrialL
           StepUp <span className="text-indigo-600 dark:text-indigo-400">Math</span>
         </h1>
         <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
-          Belajar Mandiri Matematika Model Kumon (6A - M)
+          Belajar Mandiri Matematika Berjenjang (6A - M)
         </p>
       </div>
 
@@ -312,7 +312,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({ onLoginSuccess, onTrialL
           <div className="space-y-1.5 text-[11px] text-slate-600 dark:text-slate-400">
             <div className="flex items-center gap-1.5">
               <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-              <span>Rekomendasi level Kumon (6A s/d M)</span>
+              <span>Rekomendasi level StepUp Math (6A s/d M)</span>
             </div>
             <div className="flex items-center gap-1.5">
               <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" />

@@ -1,5 +1,5 @@
 /**
- * StepUp Math - Aplikasi Belajar Mandiri Matematika Model Kumon (6A - M)
+ * StepUp Math - Aplikasi Belajar Mandiri Matematika Berjenjang (6A - M)
  * Copyright (c) Pak GuruAI
  */
 import React, { useState, useEffect } from 'react';

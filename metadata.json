@@ -1,0 +1,6 @@
+{
+  "name": "StepUp Math",
+  "description": "Aplikasi Belajar Mandiri Matematika Model Kumon Lengkap (Level 6A - M) dengan Pre-test Diagnostik, Lembar Kerja Interaktif, Analisis Progres, dan Unduh PDF oleh Pak GuruAI",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

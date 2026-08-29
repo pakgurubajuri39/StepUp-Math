@@ -13,6 +13,11 @@ import {
   ChevronRight,
   Printer,
   MessageSquareQuote,
+  FileText,
+  Copy,
+  Check,
+  Download,
+  X,
 } from 'lucide-react';
 
 interface ProgressDashboardProps {
@@ -25,6 +30,8 @@ export const ProgressDashboard: React.FC<ProgressDashboardProps> = ({
   onNavigateToLevel,
 }) => {
   const [selectedTab, setSelectedTab] = useState<'overview' | 'charts' | 'certificate'>('overview');
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
+  const [isCopied, setIsCopied] = useState(false);
 
   const totalAttempts = profile.attempts.length;
   const passedAttempts = profile.attempts.filter((a) => a.passed).length;
@@ -59,6 +66,110 @@ export const ProgressDashboard: React.FC<ProgressDashboardProps> = ({
     };
   });
 
+  // Generate text report for student tracking
+  const generateSummaryTextReport = (): string => {
+    const dateStr = new Date().toLocaleDateString('id-ID', {
+      weekday: 'long',
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+
+    const masteredLevels = levelMastery.filter((l) => l.isMastered).map((l) => l.levelId);
+    const inProgressLevels = levelMastery
+      .filter((l) => l.isUnlocked && !l.isMastered && l.passedSets > 0)
+      .map((l) => l.levelId);
+
+    let text = `====================================================\n`;
+    text += `   LAPORAN RINGKASAN PRESTASI BELAJAR SISWA\n`;
+    text += `             STEPUP MATH (6A - M)\n`;
+    text += `====================================================\n\n`;
+    text += `Nama Siswa       : ${profile.name}\n`;
+    text += `ID Pengguna      : ${profile.username}\n`;
+    text += `Tanggal Laporan  : ${dateStr}\n`;
+    text += `Level Saat Ini   : Level ${profile.assignedLevel}\n`;
+    text += `Streak Belajar   : ${profile.streakDays} Hari Berturut-turut\n\n`;
+
+    text += `----------------------------------------------------\n`;
+    text += `[1] RINGKASAN PENCAPAIAN KUMULATIF\n`;
+    text += `----------------------------------------------------\n`;
+    text += `• Total Lembar Kerja Selesai : ${totalAttempts} Lembar (Set)\n`;
+    text += `• Lembar Berhasil Lulus (>=80%): ${passedAttempts} Lembar (${
+      totalAttempts > 0 ? Math.round((passedAttempts / totalAttempts) * 100) : 0
+    }%)\n`;
+    text += `• Rata-rata Skor Akurasi     : ${averageScore}%\n`;
+    text += `• Total Waktu Pengerjaan     : ${totalMinutes} Menit (${profile.attempts.reduce(
+      (acc, a) => acc + a.timeSpentSeconds,
+      0
+    )} Detik)\n`;
+    text += `• Level Telah Dikuasai (Mastered): ${
+      masteredLevels.length > 0 ? masteredLevels.join(', ') : 'Sedang berproses'
+    }\n`;
+    text += `• Level Sedang Dipelajari    : ${
+      inProgressLevels.length > 0 ? inProgressLevels.join(', ') : 'Level ' + profile.assignedLevel
+    }\n\n`;
+
+    text += `----------------------------------------------------\n`;
+    text += `[2] RINCIAN PROGRES PER LEVEL MATEMATIKA\n`;
+    text += `----------------------------------------------------\n`;
+    levelMastery.forEach((item) => {
+      const lvlInfo = KUMON_LEVELS.find((l) => l.id === item.levelId);
+      const status = item.isMastered
+        ? '[MASTERED ✓]'
+        : item.passedSets > 0
+        ? `[${item.passedSets}/5 Set - Aktif]`
+        : item.isUnlocked
+        ? '[Terbuka]'
+        : '[Terkunci]';
+
+      text += `• Level ${item.levelId.padEnd(3)} (${lvlInfo?.name || ''}) : ${status} | Skor Terbaik: ${item.bestScore}%\n`;
+    });
+
+    const recentReflections = profile.attempts
+      .filter((a) => a.reflectionNote && a.reflectionNote.trim().length > 0)
+      .slice(-5)
+      .reverse();
+
+    if (recentReflections.length > 0) {
+      text += `\n----------------------------------------------------\n`;
+      text += `[3] CATATAN REFLEKSI BELAJAR SISWA\n`;
+      text += `----------------------------------------------------\n`;
+      recentReflections.forEach((r, idx) => {
+        text += `${idx + 1}. [Level ${r.levelId} Set ${r.setNumber}] "${r.reflectionNote}"\n`;
+      });
+    }
+
+    text += `\n====================================================\n`;
+    text += `  Platform Belajar Mandiri Matematika StepUp Math\n`;
+    text += `         @copyright by Pak GuruAI\n`;
+    text += `====================================================\n`;
+
+    return text;
+  };
+
+  const handleCopyReport = () => {
+    const text = generateSummaryTextReport();
+    navigator.clipboard.writeText(text).then(() => {
+      setIsCopied(true);
+      setTimeout(() => setIsCopied(false), 2500);
+    });
+  };
+
+  const handleDownloadReport = () => {
+    const text = generateSummaryTextReport();
+    const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `Laporan_StepUpMath_${profile.username}_${new Date().toISOString().slice(0, 10)}.txt`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-3 sm:px-4 py-4 space-y-4">
       {/* Top Header */}
@@ -73,38 +184,52 @@ export const ProgressDashboard: React.FC<ProgressDashboardProps> = ({
           </p>
         </div>
 
-        {/* Tab Switcher */}
-        <div className="flex p-0.5 bg-slate-100 dark:bg-slate-800 rounded-lg self-start sm:self-auto text-xs font-bold border border-slate-200 dark:border-slate-700">
+        {/* Action Buttons & Tab Switcher */}
+        <div className="flex flex-wrap items-center gap-2 self-start sm:self-auto">
+          {/* Generate Summary Text Report Button */}
           <button
-            onClick={() => setSelectedTab('overview')}
-            className={`px-3 py-1.5 rounded-md transition-all ${
-              selectedTab === 'overview'
-                ? 'bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-400 shadow-xs'
-                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
-            }`}
+            id="btn-generate-summary-report"
+            type="button"
+            onClick={() => setIsReportModalOpen(true)}
+            className="px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-xs transition-colors flex items-center gap-1.5 cursor-pointer"
           >
-            Ringkasan
+            <FileText className="w-3.5 h-3.5" />
+            <span>Buat Laporan Teks Ringkasan</span>
           </button>
-          <button
-            onClick={() => setSelectedTab('charts')}
-            className={`px-3 py-1.5 rounded-md transition-all ${
-              selectedTab === 'charts'
-                ? 'bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-400 shadow-xs'
-                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
-            }`}
-          >
-            Grafik Visual
-          </button>
-          <button
-            onClick={() => setSelectedTab('certificate')}
-            className={`px-3 py-1.5 rounded-md transition-all ${
-              selectedTab === 'certificate'
-                ? 'bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-400 shadow-xs'
-                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
-            }`}
-          >
-            Sertifikat
-          </button>
+
+          {/* Tab Switcher */}
+          <div className="flex p-0.5 bg-slate-100 dark:bg-slate-800 rounded-lg text-xs font-bold border border-slate-200 dark:border-slate-700">
+            <button
+              onClick={() => setSelectedTab('overview')}
+              className={`px-3 py-1.5 rounded-md transition-all ${
+                selectedTab === 'overview'
+                  ? 'bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-400 shadow-xs'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
+              }`}
+            >
+              Ringkasan
+            </button>
+            <button
+              onClick={() => setSelectedTab('charts')}
+              className={`px-3 py-1.5 rounded-md transition-all ${
+                selectedTab === 'charts'
+                  ? 'bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-400 shadow-xs'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
+              }`}
+            >
+              Grafik Visual
+            </button>
+            <button
+              onClick={() => setSelectedTab('certificate')}
+              className={`px-3 py-1.5 rounded-md transition-all ${
+                selectedTab === 'certificate'
+                  ? 'bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-400 shadow-xs'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
+              }`}
+            >
+              Sertifikat
+            </button>
+          </div>
         </div>
       </div>
 
@@ -441,6 +566,75 @@ export const ProgressDashboard: React.FC<ProgressDashboardProps> = ({
           <p className="text-[10px] font-semibold text-slate-400 font-mono">
             @copyright by StepUp Math - Pak GuruAI
           </p>
+        </div>
+      )}
+
+      {/* --- SUMMARY TEXT REPORT MODAL DIALOG --- */}
+      {isReportModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/60 backdrop-blur-xs">
+          <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+            {/* Modal Header */}
+            <div className="p-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-lg bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
+                  <FileText className="w-4 h-4" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold text-slate-900 dark:text-white">
+                    Laporan Ringkasan Prestasi Belajar
+                  </h3>
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                    Format teks siap salin untuk dokumentasi mandiri dan portofolio siswa
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsReportModalOpen(false)}
+                className="w-8 h-8 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center transition-colors cursor-pointer"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            {/* Modal Body: Monospace Text Preview */}
+            <div className="flex-1 p-4 overflow-y-auto bg-slate-50 dark:bg-slate-950/70">
+              <pre className="p-3.5 rounded-xl bg-slate-900 text-slate-100 font-mono text-[11px] leading-relaxed overflow-x-auto whitespace-pre selection:bg-indigo-500 selection:text-white border border-slate-800 shadow-inner">
+                {generateSummaryTextReport()}
+              </pre>
+            </div>
+
+            {/* Modal Footer Actions */}
+            <div className="p-3.5 border-t border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 flex flex-wrap items-center justify-between gap-2">
+              <div className="text-[11px] text-slate-500 font-mono">
+                {totalAttempts} lembar kerja • {passedAttempts} lulus
+              </div>
+
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={handleCopyReport}
+                  className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer shadow-xs ${
+                    isCopied
+                      ? 'bg-emerald-600 text-white'
+                      : 'bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-100 dark:hover:bg-indigo-900/60 border border-indigo-200 dark:border-indigo-800'
+                  }`}
+                >
+                  {isCopied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                  <span>{isCopied ? 'Tersalin ke Clipboard!' : 'Salin Teks Laporan'}</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleDownloadReport}
+                  className="px-3.5 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold transition-colors flex items-center gap-1.5 cursor-pointer shadow-xs"
+                >
+                  <Download className="w-3.5 h-3.5" />
+                  <span>Unduh File (.txt)</span>
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       )}
     </div>

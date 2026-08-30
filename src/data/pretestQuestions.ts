@@ -66,7 +66,7 @@ export const PRETEST_QUESTIONS: PretestQuestion[] = [
     id: 'pt-7',
     levelTested: 'B',
     difficultyOrder: 7,
-    question: 'Hitung pengurangan bersusun: 82 - 37 = ?',
+    question: '82 - 37 = ?',
     options: ['45', '55', '47', '35'],
     correctAnswer: '45',
     topic: 'Pengurangan Bersusun dengan Pinjam',

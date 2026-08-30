@@ -213,9 +213,6 @@ export const DiagnosticPretest: React.FC<DiagnosticPretestProps> = ({
 
       {/* Question Card */}
       <div className="p-4 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-700/80 mb-4">
-        <span className="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider block mb-1 font-mono">
-          Topik: {currentQ.topic}
-        </span>
         <h3 className="text-base sm:text-lg font-extrabold text-slate-900 dark:text-white leading-relaxed font-mono">
           {currentQ.question}
         </h3>

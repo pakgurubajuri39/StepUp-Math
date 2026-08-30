@@ -141,8 +141,8 @@ export const getMProblems = (set: number): ProblemItem[] => {
     { id: `M-${safeSet}-6`, question: 'Hitung menggunakan substitusi: ∫₀¹ 2x(x² + 1)³ dx = ?', type: 'number', correctAnswer: '3.75', alternateAnswers: ['15/4'], explanation: 'u = x² + 1 -> ∫₁² u³ du = [u⁴/4]₁² = (16 - 1)/4 = 15/4 = 3.75.' },
     { id: `M-${safeSet}-7`, question: 'Tentukan konstanta C jika ∫ (4x³ - 6x) dx melalui titik (1, 5) (f(x) = x⁴ - 3x² + C).', type: 'number', correctAnswer: '7', explanation: '1 - 3 + C = 5 -> C = 7.' },
     { id: `M-${safeSet}-8`, question: 'Hitung: ∫₀^(π/2) cos(x) dx = ?', type: 'number', correctAnswer: '1', explanation: '[sin(x)]₀^(π/2) = 1 - 0 = 1.' },
-    { id: `M-${safeSet}-9`, question: 'Hitung volume benda putar kurva y = x dari x=0 ke x=2 diputar 360° mengelilingi sumbu X (jawab dalam kelipatan π, tulis koefisiennya).', type: 'number', correctAnswer: '2.67', alternateAnswers: ['8/3', '2.66'], explanation: 'V = π ∫₀² x² dx = π [x³/3]₀² = 8/3 π ≈ 2.67π.' },
-    { id: `M-${safeSet}-10`, question: 'Hitung integral parsial: ∫₀¹ x eˣ dx = ? (e - 2/e... nilai desimal)', type: 'number', correctAnswer: '1', explanation: '[x eˣ - eˣ]₀¹ = (e - e) - (0 - 1) = 1.' },
+    { id: `M-${safeSet}-9`, question: 'Hitung volume benda putar kurva y = x dari x = 0 ke x = 2 diputar 360° mengelilingi sumbu X.', type: 'number', correctAnswer: '2.67', alternateAnswers: ['8/3', '2.66'], explanation: 'V = π ∫₀² x² dx = π [x³/3]₀² = 8/3 π ≈ 2.67π.' },
+    { id: `M-${safeSet}-10`, question: 'Hitung: ∫₀¹ x eˣ dx = ?', type: 'number', correctAnswer: '1', explanation: '[x eˣ - eˣ]₀¹ = (e - e) - (0 - 1) = 1.' },
   ];
 };
 
@@ -155,7 +155,7 @@ export const getNProblems = (set: number): ProblemItem[] => {
   return [
     {
       id: `N-${safeSet}-1`,
-      question: 'Selesaikan PDB terpisahkan:\n  dy/dx = 2x y\nJika y(0) = 3, tentukan y(1) / e. (Nilai koefisien)',
+      question: 'Selesaikan PDB terpisahkan:\n  dy/dx = 2x y\nJika y(0) = 3, tentukan y(1) / e.',
       subtitle: 'Persamaan Diferensial Terpisahkan (PDB Orde 1)',
       type: 'number',
       correctAnswer: '3',
@@ -171,7 +171,7 @@ export const getNProblems = (set: number): ProblemItem[] => {
     { id: `N-${safeSet}-7`, question: 'Dari PDB y\'\' + 4y = 0, berapakah frekuensi sudut alami ω (rad/s)?', type: 'number', correctAnswer: '2', explanation: 'r² + 4 = 0 -> r = ±2i -> ω = 2.' },
     { id: `N-${safeSet}-8`, question: 'Hitung nilai limit deret menggunakan ekspansi: lim (x→0) (sin x - x) / x³ = ?', type: 'number', correctAnswer: '-0.167', alternateAnswers: ['-1/6', '-0.17'], explanation: '-x³/6 / x³ = -1/6 ≈ -0.167.' },
     { id: `N-${safeSet}-9`, question: 'Tentukan orde dari persamaan diferensial: (d³y/dx³) + 4(dy/dx)² + y = sin(x).', type: 'number', correctAnswer: '3', explanation: 'Turunan tertinggi adalah turunan ke-3 (orde 3).' },
-    { id: `N-${safeSet}-10`, question: 'Gunakan deret Taylor derajat 2 untuk menghitung perkiraan √1.1 di sekitar x = 0 (f(x) = √(1+x)). (Jawab 3 desimal)', type: 'number', correctAnswer: '1.049', alternateAnswers: ['1.0488', '1.05'], explanation: '1 + 0.5(0.1) - 0.125(0.01) = 1 + 0.05 - 0.00125 = 1.04875 ≈ 1.049.' },
+    { id: `N-${safeSet}-10`, question: 'Gunakan deret Taylor derajat 2 untuk menghitung perkiraan √1.1 di sekitar x = 0.', type: 'number', correctAnswer: '1.049', alternateAnswers: ['1.0488', '1.05'], explanation: '1 + 0.5(0.1) - 0.125(0.01) = 1 + 0.05 - 0.00125 = 1.04875 ≈ 1.049.' },
   ];
 };
 
@@ -196,10 +196,10 @@ export const getOProblems = (set: number): ProblemItem[] => {
     { id: `O-${safeSet}-3`, question: 'Dari perkalian (2 + 3i)(4 - i) di atas, berapakah bagian imajinernya?', type: 'number', correctAnswer: '10', explanation: 'Bagian imajiner = 10.' },
     { id: `O-${safeSet}-4`, question: 'Gunakan Formula Euler e^(iθ) = cos θ + i sin θ. Berapakah nilai e^(i π) + 1?', type: 'number', correctAnswer: '0', explanation: 'e^(i π) = -1 -> -1 + 1 = 0.' },
     { id: `O-${safeSet}-5`, question: 'Tentukan Transformasi Laplace dari f(t) = 1, yaitu L{1} = 1/s^k. Berapakah k?', type: 'number', correctAnswer: '1', explanation: 'L{1} = 1/s. Nilai k = 1.' },
-    { id: `O-${safeSet}-6`, question: 'Tentukan Transformasi Laplace dari f(t) = e^(3t) untuk s > 3 (bentuk 1/(s - a)). Berapakah a?', type: 'number', correctAnswer: '3', explanation: 'L{e^(at)} = 1/(s - a) -> a = 3.' },
+    { id: `O-${safeSet}-6`, question: 'Tentukan Transformasi Laplace dari f(t) = e^(3t) untuk s > 3. Berapakah a jika L{e^(3t)} = 1/(s - a)?', type: 'number', correctAnswer: '3', explanation: 'L{e^(at)} = 1/(s - a) -> a = 3.' },
     { id: `O-${safeSet}-7`, question: 'Tentukan nilai eigen (eigenvalue) terbesar dari matriks A = |4  1|\n|2  3|', type: 'number', correctAnswer: '5', explanation: 'det(A - λI) = (4-λ)(3-λ) - 2 = λ² - 7λ + 10 = (λ - 5)(λ - 2) = 0 -> λ terbesar = 5.' },
     { id: `O-${safeSet}-8`, question: 'Tentukan nilai eigen terkecil dari matriks di atas.', type: 'number', correctAnswer: '2', explanation: 'λ terkecil = 2.' },
     { id: `O-${safeSet}-9`, question: 'Hitung trace (jumlah elemen diagonal utama) dari matriks A = |4  1|\n|2  3|.', type: 'number', correctAnswer: '7', explanation: 'Trace = 4 + 3 = 7.' },
-    { id: `O-${safeSet}-10`, question: 'Berapakah nilai i²⁰²⁴? (i = √-1)', type: 'number', correctAnswer: '1', explanation: '2024 habis dibagi 4 -> i^(4k) = 1.' },
+    { id: `O-${safeSet}-10`, question: 'Berapakah nilai i²⁰²⁴?', type: 'number', correctAnswer: '1', explanation: '2024 habis dibagi 4 -> i^(4k) = 1.' },
   ];
 };

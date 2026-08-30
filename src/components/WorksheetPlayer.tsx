@@ -492,9 +492,6 @@ export const WorksheetPlayer: React.FC<WorksheetPlayerProps> = ({
               <span className="font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider text-[11px]">
                 Nomor {currentProblemIdx + 1}
               </span>
-              {currentProblem.subtitle && (
-                <span className="italic text-[10px]">{currentProblem.subtitle}</span>
-              )}
             </div>
 
             {/* Question Body */}

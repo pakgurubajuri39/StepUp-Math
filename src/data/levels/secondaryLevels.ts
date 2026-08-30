@@ -309,7 +309,7 @@ export const getIProblems = (set: number): ProblemItem[] => {
       return [
         {
           id: `I-3-1`,
-          question: 'Gunakan rumus kuadratik (rumus ABC) untuk x² - 6x + 4 = 0. Tentukan nilai diskriminannya (D).',
+          question: 'Tentukan nilai diskriminan dari persamaan kuadrat:\n  x² - 6x + 4 = 0',
           subtitle: 'Rumus Kuadratik (ABC) & Bentuk Kuadrat Sempurna',
           type: 'number',
           correctAnswer: '20',
@@ -319,12 +319,12 @@ export const getIProblems = (set: number): ProblemItem[] => {
         },
         { id: `I-3-2`, question: 'Ubahlah x² + 8x + 5 ke bentuk (x + p)² + q. Berapakah nilai p?', type: 'number', correctAnswer: '4', explanation: '(x + 4)² - 16 + 5 = (x + 4)² - 11. p = 4.' },
         { id: `I-3-3`, question: 'Dari bentuk (x + 4)² - 11 di atas, berapakah nilai q?', type: 'number', correctAnswer: '-11', explanation: 'q = -11.' },
-        { id: `I-3-4`, question: 'Tentukan hasil kali akar-akar (x1 · x2 = c/a) dari 3x² + 5x - 12 = 0.', type: 'number', correctAnswer: '-4', explanation: 'c/a = -12 / 3 = -4.' },
+        { id: `I-3-4`, question: 'Tentukan hasil kali akar-akar (x₁ · x₂) dari 3x² + 5x - 12 = 0.', type: 'number', correctAnswer: '-4', explanation: 'c/a = -12 / 3 = -4.' },
         { id: `I-3-5`, question: 'Jika akar-akar x² - 7x + k = 0 adalah x1 dan x2, serta x1 · x2 = 10, tentukan nilai k.', type: 'number', correctAnswer: '10', explanation: 'k/1 = 10 -> k = 10.' },
-        { id: `I-3-6`, question: 'Tentukan persamaan kuadrat yang akar-akarnya 4 dan -5 (format: x²+bx+c=0, tulis nilai b).', type: 'number', correctAnswer: '1', explanation: '(x - 4)(x + 5) = x² + x - 20 = 0. b = 1.' },
+        { id: `I-3-6`, question: 'Tentukan nilai b jika persamaan kuadrat x² + bx + c = 0 memiliki akar-akar 4 dan -5.', type: 'number', correctAnswer: '1', explanation: '(x - 4)(x + 5) = x² + x - 20 = 0. b = 1.' },
         { id: `I-3-7`, question: 'Dari persamaan kuadrat di atas, berapakah nilai c?', type: 'number', correctAnswer: '-20', explanation: 'c = -20.' },
         { id: `I-3-8`, question: 'Selesaikan persamaan: (x - 3)² = 25. Tentukan akar positifnya.', type: 'number', correctAnswer: '8', explanation: 'x - 3 = ±5 -> x = 8 atau x = -2.' },
-        { id: `I-3-9`, question: 'Tentukan sumbu simetri (x = -b/2a) dari fungsi kuadrat f(x) = 2x² - 12x + 7.', type: 'number', correctAnswer: '3', explanation: 'x = -(-12) / (2 × 2) = 12 / 4 = 3.' },
+        { id: `I-3-9`, question: 'Tentukan sumbu simetri x dari fungsi kuadrat f(x) = 2x² - 12x + 7.', type: 'number', correctAnswer: '3', explanation: 'x = -(-12) / (2 × 2) = 12 / 4 = 3.' },
         { id: `I-3-10`, question: 'Tentukan nilai optimum minimum dari f(x) = x² - 6x + 13.', type: 'number', correctAnswer: '4', explanation: 'x = 3 -> f(3) = 9 - 18 + 13 = 4.' },
       ];
 
@@ -344,7 +344,7 @@ export const getIProblems = (set: number): ProblemItem[] => {
         { id: `I-4-3`, question: 'Tinggi sebuah proyektil setelah t detik adalah h(t) = 40t - 5t² meter. Kapan proyektil mencapai tinggi maksimum (detik)?', type: 'number', correctAnswer: '4', explanation: 't = -b/2a = -40 / (2 × -5) = 4 detik.' },
         { id: `I-4-4`, question: 'Berapakah tinggi maksimum yang dicapai proyektil tersebut (meter)?', type: 'number', correctAnswer: '80', explanation: 'h(4) = 40(4) - 5(16) = 160 - 80 = 80 meter.' },
         { id: `I-4-5`, question: 'Dua bilangan bulat positif berselisih 3 dan jumlah kuadratnya adalah 65. Tentukan bilangan yang lebih besar.', type: 'number', correctAnswer: '7', explanation: 'x² + (x+3)² = 65 -> 2x² + 6x + 9 = 65 -> 2x² + 6x - 56 = 0 -> x² + 3x - 28 = 0 -> (x+7)(x-4)=0. x = 4, bilangan lebih besar = 7.' },
-        { id: `I-4-6`, question: 'Faktorkan selisih kuadrat: 4a² - 25b² = (2a - 5b)(2a + pb). Berapakah p?', type: 'number', correctAnswer: '5', explanation: 'p = 5.' },
+        { id: `I-4-6`, question: 'Faktorkan 4a² - 25b² menjadi (2a - 5b)(2a + pb). Berapakah p?', type: 'number', correctAnswer: '5', explanation: 'p = 5.' },
         { id: `I-4-7`, question: 'Tentukan nilai k agar persamaan x² + kx + 16 = 0 memiliki dua akar kembar positif.', type: 'number', correctAnswer: '8', explanation: 'k = 2√16 = 8.' },
         { id: `I-4-8`, question: 'Selesaikan: x⁴ - 13x² + 36 = 0. Tentukan akar real positif terbesarnya.', type: 'number', correctAnswer: '3', explanation: '(x² - 9)(x² - 4) = 0 -> x² = 9 -> x = 3.' },
         { id: `I-4-9`, question: 'Sebuah balok memiliki ukuran 3 cm × 4 cm × 12 cm. Berapakah panjang diagonal ruang balok tersebut (cm)?', type: 'number', correctAnswer: '13', explanation: '√(3² + 4² + 12²) = √(9 + 16 + 144) = √169 = 13 cm.' },
@@ -371,7 +371,7 @@ export const getIProblems = (set: number): ProblemItem[] => {
         { id: `I-5-6`, question: 'Faktorkan: x³ - 8 = (x - 2)(x² + 2x + c). Berapakah nilai c?', type: 'number', correctAnswer: '4', explanation: 'a³ - b³ = (a - b)(a² + ab + b²). c = 2² = 4.' },
         { id: `I-5-7`, question: 'Panjang sisi kubus dengan diagonal ruang 6√3 cm adalah ... cm.', type: 'number', correctAnswer: '6', explanation: 's√3 = 6√3 -> s = 6 cm.' },
         { id: `I-5-8`, question: 'Selesaikan: √(2x + 9) = x + 3. Tentukan nilai x bulat.', type: 'number', correctAnswer: '0', explanation: '2x + 9 = x² + 6x + 9 -> x² + 4x = 0 -> x = 0 atau x = -4 (uji: x=0 valid, x=-4 tidak).' },
-        { id: `I-5-9`, question: 'Tentukan nilai m agar garis y = 2x + m menyinggung parabola y = x² (D = 0).', type: 'number', correctAnswer: '-1', explanation: 'x² - 2x - m = 0 -> D = 4 - 4(1)(-m) = 4 + 4m = 0 -> m = -1.' },
+        { id: `I-5-9`, question: 'Tentukan nilai m agar garis y = 2x + m menyinggung parabola y = x².', type: 'number', correctAnswer: '-1', explanation: 'x² - 2x - m = 0 -> D = 4 - 4(1)(-m) = 4 + 4m = 0 -> m = -1.' },
         { id: `I-5-10`, question: 'Berapakah jarak titik asal (0,0) ke garis 3x + 4y = 20?', type: 'number', correctAnswer: '4', explanation: 'd = |3(0) + 4(0) - 20| / √(3² + 4²) = 20 / 5 = 4.' },
       ];
   }

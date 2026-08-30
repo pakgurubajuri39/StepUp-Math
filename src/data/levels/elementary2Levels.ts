@@ -88,7 +88,7 @@ export const getCProblems = (set: number): ProblemItem[] => {
       return [
         {
           id: `C-4-1`,
-          question: 'Hitung pembagian bersisa: 17 ÷ 3 = ? (Tulis format: hasil sisa s)',
+          question: 'Hitung pembagian bersisa:\n  17 ÷ 3 = ?',
           subtitle: 'Pembagian Sederhana dengan Sisa',
           type: 'text',
           correctAnswer: '5 sisa 2',
@@ -239,7 +239,7 @@ export const getDProblems = (set: number): ProblemItem[] => {
       return [
         {
           id: `D-2-1`,
-          question: 'Hitung pembagian bersusun (porogapit):\n  84 ÷ 3 = ?',
+          question: 'Hitung:\n  84 ÷ 3 = ?',
           subtitle: 'Pembagian Porogapit 2-3 Digit ÷ 1 Digit',
           type: 'number',
           correctAnswer: '28',
@@ -370,7 +370,7 @@ export const getEProblems = (set: number): ProblemItem[] => {
         { id: `E-1-4`, question: '5/8 + 1/4 = ?', type: 'text', correctAnswer: '7/8', explanation: '5/8 + 2/8 = 7/8.' },
         { id: `E-1-5`, question: '2/3 + 3/5 = ?', type: 'text', correctAnswer: '19/15', alternateAnswers: ['1 4/15'], explanation: '10/15 + 9/15 = 19/15.' },
         { id: `E-1-6`, question: '5/6 + 3/4 = ?', type: 'text', correctAnswer: '19/12', alternateAnswers: ['1 7/12'], explanation: '10/12 + 9/12 = 19/12.' },
-        { id: `E-1-7`, question: '1 1/2 + 2 1/3 = ? (Tulis dalam pecahan campuran atau biasa)', type: 'text', correctAnswer: '3 5/6', alternateAnswers: ['23/6'], explanation: '1 + 2 + (1/2 + 1/3) = 3 5/6.' },
+        { id: `E-1-7`, question: '1 1/2 + 2 1/3 = ?', type: 'text', correctAnswer: '3 5/6', alternateAnswers: ['23/6'], explanation: '1 + 2 + (1/2 + 1/3) = 3 5/6.' },
         { id: `E-1-8`, question: '2 3/4 + 1 2/5 = ?', type: 'text', correctAnswer: '4 3/20', alternateAnswers: ['83/20'], explanation: '2 + 1 + 15/20 + 8/20 = 4 3/20.' },
         { id: `E-1-9`, question: '3 5/6 + 2 2/3 = ?', type: 'text', correctAnswer: '6 1/2', alternateAnswers: ['13/2', '6 3/6'], explanation: '3 + 2 + 5/6 + 4/6 = 5 9/6 = 6 1/2.' },
         { id: `E-1-10`, question: '4 3/8 + 2 3/4 = ?', type: 'text', correctAnswer: '7 1/8', alternateAnswers: ['57/8'], explanation: '4 + 2 + 3/8 + 6/8 = 6 9/8 = 7 1/8.' },
@@ -467,7 +467,7 @@ export const getEProblems = (set: number): ProblemItem[] => {
       return [
         {
           id: `E-5-1`,
-          question: 'Hitung: 3/4 + 0.5 = ? (Tulis dalam desimal atau pecahan)',
+          question: 'Hitung:\n  3/4 + 0.5 = ?',
           subtitle: 'Penguasaan Total Pecahan & Desimal Level E',
           type: 'text',
           correctAnswer: '1.25',

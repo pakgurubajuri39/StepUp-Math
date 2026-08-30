@@ -192,7 +192,15 @@ export function generateWorksheetPDF(
     keyY += 10.5;
 
     worksheet.problems.forEach((p, idx) => {
-      const cardHeight = p.explanation ? 20 : 14;
+      const isFirstQuestion = idx === 0;
+      const hasModelOrGuide = isFirstQuestion && (p.workedExample || (p.stepByStepGuide && p.stepByStepGuide.length > 0));
+
+      let cardHeight = p.explanation ? 18 : 12;
+      if (hasModelOrGuide) {
+        // Calculate extra space for Contoh Model & Langkah under No. 1
+        const guideLinesCount = (p.stepByStepGuide?.length || 0);
+        cardHeight += 24 + (guideLinesCount * 4);
+      }
 
       // Check page boundary
       if (keyY + cardHeight > pageHeight - margin - 10) {
@@ -227,12 +235,49 @@ export function generateWorksheetPDF(
       const qClean = p.question.replace(/\n/g, ' ');
       doc.text(`Soal: ${qClean.substring(0, 70)}${qClean.length > 70 ? '...' : ''}`, margin + 54, keyY + 5.3);
 
+      let subY = keyY + 10.5;
+
       if (p.explanation) {
         doc.setFont('helvetica', 'italic');
         doc.setFontSize(7);
         doc.setTextColor(100, 116, 139);
         const expClean = p.explanation.replace(/\n/g, ' ');
-        doc.text(`Pembahasan: ${expClean.substring(0, 95)}`, margin + 4, keyY + 11.5);
+        doc.text(`Pembahasan: ${expClean.substring(0, 95)}`, margin + 4, subY);
+        subY += 4.5;
+      }
+
+      // Render CONTOH MODEL & LANGKAH PENGERJAAN exclusively under Question No. 1
+      if (hasModelOrGuide) {
+        doc.setFillColor(241, 245, 249); // slate-100
+        doc.setDrawColor(203, 213, 225); // slate-300
+        const guideBoxH = cardHeight - (subY - keyY) - 3;
+        doc.roundedRect(margin + 3, subY, pageWidth - margin * 2 - 6, guideBoxH, 1, 1, 'FD');
+
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(7);
+        doc.setTextColor(67, 56, 202); // Indigo-700
+        doc.text('CONTOH MODEL & LANGKAH PENGERJAAN (KHUSUS SOAL NO. 1):', margin + 6, subY + 4);
+
+        let gY = subY + 8;
+        if (p.workedExample) {
+          doc.setFont('helvetica', 'normal');
+          doc.setFontSize(6.8);
+          doc.setTextColor(30, 41, 59);
+          const weText = doc.splitTextToSize(`• ${p.workedExample}`, pageWidth - margin * 2 - 14);
+          doc.text(weText, margin + 6, gY);
+          gY += (Array.isArray(weText) ? weText.length : 1) * 3.5;
+        }
+
+        if (p.stepByStepGuide && p.stepByStepGuide.length > 0) {
+          doc.setFont('helvetica', 'normal');
+          doc.setFontSize(6.5);
+          doc.setTextColor(71, 85, 105);
+          p.stepByStepGuide.forEach((step) => {
+            const stepText = doc.splitTextToSize(`  - ${step}`, pageWidth - margin * 2 - 14);
+            doc.text(stepText, margin + 6, gY);
+            gY += (Array.isArray(stepText) ? stepText.length : 1) * 3.2;
+          });
+        }
       }
 
       keyY += cardHeight + 2.5;

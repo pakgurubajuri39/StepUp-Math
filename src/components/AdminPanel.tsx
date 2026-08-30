@@ -312,6 +312,27 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                         Pembahasan: {p.explanation}
                       </p>
                     )}
+
+                    {/* CONTOH MODEL & LANGKAH (Khusus Soal No. 1) */}
+                    {idx === 0 && (p.workedExample || (p.stepByStepGuide && p.stepByStepGuide.length > 0)) && (
+                      <div className="ml-7 p-2.5 rounded-md bg-indigo-50/70 dark:bg-indigo-950/40 border border-indigo-200/80 dark:border-indigo-800/60 text-[11px] space-y-1">
+                        <span className="font-bold text-indigo-700 dark:text-indigo-300 block font-mono text-[10px] uppercase">
+                          CONTOH MODEL & LANGKAH (KHUSUS SOAL NO. 1):
+                        </span>
+                        {p.workedExample && (
+                          <div className="text-slate-800 dark:text-slate-200 font-medium font-mono">
+                            • {p.workedExample}
+                          </div>
+                        )}
+                        {p.stepByStepGuide && p.stepByStepGuide.length > 0 && (
+                          <ul className="list-disc list-inside text-slate-600 dark:text-slate-400 space-y-0.5 text-[10px]">
+                            {p.stepByStepGuide.map((step, sIdx) => (
+                              <li key={sIdx}>{step}</li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>

@@ -565,12 +565,6 @@ export const WorksheetPlayer: React.FC<WorksheetPlayerProps> = ({
                   </div>
                 </div>
               )}
-
-              {currentProblem.hint && (
-                <p className="text-[11px] text-amber-600 dark:text-amber-400 font-medium">
-                  Petunjuk: {currentProblem.hint}
-                </p>
-              )}
             </div>
 
             {/* Bottom Nav inside card */}

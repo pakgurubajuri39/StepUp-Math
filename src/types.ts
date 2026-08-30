@@ -85,11 +85,14 @@ export interface StudentProfile {
   name: string;
   role: 'student' | 'trial' | 'admin';
   assignedLevel: KumonLevelId;
+  assignedSet?: number; // Target set: 1 to 5
   unlockedLevels: KumonLevelId[];
   lastSelectedLevel?: KumonLevelId;
+  lastSelectedSet?: number; // Set terakhir yang dibuka / dikerjakan (1 to 5)
   pretestTaken: boolean;
   pretestScore?: number;
   pretestResultLevel?: KumonLevelId;
+  pretestResultSet?: number;
   pretestDate?: string;
   isTrial: boolean;
   trialWorksheetCompleted: boolean;

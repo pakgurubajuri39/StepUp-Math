@@ -89,11 +89,16 @@ export const DiagnosticPretest: React.FC<DiagnosticPretestProps> = ({
     const updatedProfile: StudentProfile = {
       ...profile,
       assignedLevel: resultData.recommendedLevel,
+      assignedSet: 1,
+      lastSelectedLevel: resultData.recommendedLevel,
+      lastSelectedSet: 1,
       unlockedLevels: profile.role === 'admin' ? levelOrder : unlocked,
       pretestTaken: true,
       pretestScore: resultData.scorePercentage,
       pretestResultLevel: resultData.recommendedLevel,
+      pretestResultSet: 1,
       pretestDate: new Date().toISOString(),
+      lastActiveDate: new Date().toISOString().split('T')[0],
     };
 
     onPretestComplete({

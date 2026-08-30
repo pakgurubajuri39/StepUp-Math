@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { KUMON_LEVELS, getWorksheetData } from '../data/levelsData';
 import { KumonLevelId, StudentProfile, Worksheet } from '../types';
+import { updateStudentLastPosition } from '../utils/storage';
 import {
   Lock,
   Unlock,
@@ -14,6 +15,7 @@ import {
   HelpCircle,
   BarChart2,
   ShieldCheck,
+  Zap,
 } from 'lucide-react';
 
 interface LevelOverviewProps {
@@ -39,9 +41,18 @@ export const LevelOverview: React.FC<LevelOverviewProps> = ({
   const currentLevelObj =
     KUMON_LEVELS.find((l) => l.id === selectedLevelId) || KUMON_LEVELS[0];
 
+  const activeLevelId = profile.lastSelectedLevel || profile.assignedLevel || '6A';
+  const activeSetNumber = profile.lastSelectedSet || profile.assignedSet || 1;
+  const activeWorksheetData = getWorksheetData(activeLevelId, activeSetNumber);
+
   const isLevelUnlocked = (levelId: KumonLevelId) => {
     if (isAdmin) return true;
     return profile.unlockedLevels.includes(levelId);
+  };
+
+  const handleWorksheetClick = (wsData: Worksheet) => {
+    updateStudentLastPosition(profile, wsData.levelId, wsData.setNumber);
+    onSelectWorksheet(wsData);
   };
 
   const getBestScoreForSet = (levelId: KumonLevelId, setNum: number): number | null => {
@@ -66,20 +77,20 @@ export const LevelOverview: React.FC<LevelOverviewProps> = ({
         <div className="space-y-1">
           <div className="flex items-center gap-2">
             <span className="px-2 py-0.5 rounded bg-white/20 text-[10px] font-bold uppercase tracking-wider">
-              {isAdmin ? 'ADMIN FULL ACCESS' : isTrial ? 'TRIAL MODE' : `STUDENT: ${profile.name}`}
+              {isAdmin ? 'ADMIN FULL ACCESS' : isTrial ? 'TRIAL MODE' : `SISWA: ${profile.name}`}
             </span>
             <span className="text-[11px] text-indigo-200">
-              Target Aktif: Level {profile.assignedLevel}
+              Posisi Terakhir: Level {activeLevelId} • Set {activeSetNumber}
             </span>
           </div>
 
           <h1 className="text-xl sm:text-2xl font-black tracking-tight">
-            Kurikulum Matematika StepUp Math
+            Kurikulum Belajar Mandiri StepUp Math
           </h1>
 
           <p className="text-indigo-100 text-xs max-w-2xl leading-relaxed">
             Sistem belajar mandiri terstruktur mulai dari <strong>Level 6A</strong> (Pra-Sekolah) hingga{' '}
-            <strong>Level M</strong> (Kalkulus Lanjut & Vektor).
+            <strong>Level M</strong> (Kalkulus Lanjut & Vektor). Progres tersimpan otomatis di perangkat.
           </p>
         </div>
 
@@ -107,6 +118,40 @@ export const LevelOverview: React.FC<LevelOverviewProps> = ({
           )}
         </div>
       </div>
+
+      {/* Quick Resume Card for Student */}
+      {profile.pretestTaken && !isAdmin && (
+        <div className="p-3.5 bg-gradient-to-r from-emerald-600 to-teal-700 text-white rounded-xl shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-lg bg-white/20 flex items-center justify-center shrink-0">
+              <Zap className="w-5 h-5 text-amber-300" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] font-bold uppercase tracking-wider bg-black/20 px-2 py-0.5 rounded font-mono">
+                  TERAKHIR BELAJAR
+                </span>
+                <span className="text-xs font-black">
+                  Level {activeLevelId} — Set {activeSetNumber}
+                </span>
+              </div>
+              <p className="text-xs text-emerald-100 mt-0.5">
+                {activeWorksheetData.title} ({activeWorksheetData.problems.length} Soal • Target {activeWorksheetData.targetMinutes} Menit)
+              </p>
+            </div>
+          </div>
+
+          <button
+            id="btn-quick-resume-last-set"
+            type="button"
+            onClick={() => handleWorksheetClick(activeWorksheetData)}
+            className="px-4 py-2 bg-white text-emerald-900 hover:bg-emerald-50 font-bold text-xs rounded-lg shadow-xs transition-all flex items-center justify-center gap-1.5 shrink-0 cursor-pointer"
+          >
+            <Play className="w-3.5 h-3.5 fill-current" />
+            <span>Lanjutkan Pembelajaran Terakhir</span>
+          </button>
+        </div>
+      )}
 
       {/* Main Grid: Staircase Level List on Left, Detailed Worksheets on Right */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
@@ -136,6 +181,7 @@ export const LevelOverview: React.FC<LevelOverviewProps> = ({
                   onClick={() => {
                     if (unlocked || isAdmin) {
                       setSelectedLevelId(lvl.id);
+                      updateStudentLastPosition(profile, lvl.id, profile.lastSelectedSet || 1);
                     }
                   }}
                   className={`p-2.5 rounded-lg border transition-all cursor-pointer flex items-center justify-between gap-2.5 ${
@@ -267,12 +313,18 @@ export const LevelOverview: React.FC<LevelOverviewProps> = ({
                 const isTrialLocked =
                   isTrial && (currentLevelObj.id !== profile.assignedLevel || setNum > 1);
 
+                const isCurrentLastPosition =
+                  profile.lastSelectedLevel === currentLevelObj.id &&
+                  (profile.lastSelectedSet || 1) === setNum;
+
                 return (
                   <div
                     key={setNum}
                     id={`worksheet-set-card-${currentLevelObj.id}-${setNum}`}
                     className={`p-3 rounded-lg border transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
-                      isPassed
+                      isCurrentLastPosition
+                        ? 'bg-indigo-50/70 dark:bg-indigo-950/40 border-indigo-400 dark:border-indigo-600 ring-1 ring-indigo-400 shadow-xs'
+                        : isPassed
                         ? 'bg-emerald-50/60 dark:bg-emerald-950/30 border-emerald-300 dark:border-emerald-800/80 shadow-xs'
                         : isTrialLocked
                         ? 'bg-slate-50 dark:bg-slate-800/40 border-slate-200 dark:border-slate-800 opacity-60'
@@ -287,6 +339,11 @@ export const LevelOverview: React.FC<LevelOverviewProps> = ({
                         <h4 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">
                           {wsData.title}
                         </h4>
+                        {isCurrentLastPosition && (
+                          <span className="px-1.5 py-0.2 rounded bg-indigo-600 text-white text-[9px] font-bold">
+                            Sedang Dipelajari
+                          </span>
+                        )}
                         {setNum === 5 && (
                           <span className="px-1.5 py-0.2 rounded bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300 text-[9px] font-bold">
                             Ujian Kenaikan
@@ -324,7 +381,7 @@ export const LevelOverview: React.FC<LevelOverviewProps> = ({
                         <button
                           id={`btn-play-worksheet-${currentLevelObj.id}-${setNum}`}
                           type="button"
-                          onClick={() => onSelectWorksheet(wsData)}
+                          onClick={() => handleWorksheetClick(wsData)}
                           className="px-3.5 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-md shadow-xs transition-all flex items-center gap-1.5 cursor-pointer"
                         >
                           <Play className="w-3 h-3 fill-current" />

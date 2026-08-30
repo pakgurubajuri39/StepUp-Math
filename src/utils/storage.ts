@@ -13,8 +13,10 @@ export const DEFAULT_PROFILE: StudentProfile = {
   name: 'Siswa StepUp',
   role: 'student',
   assignedLevel: '6A',
+  assignedSet: 1,
   unlockedLevels: ['6A'],
   lastSelectedLevel: '6A',
+  lastSelectedSet: 1,
   pretestTaken: false,
   isTrial: false,
   trialWorksheetCompleted: false,
@@ -36,6 +38,12 @@ export function loadStudentProfile(): StudentProfile | null {
     // Ensure unlockedLevels contains at least assignedLevel
     if (!parsed.unlockedLevels || parsed.unlockedLevels.length === 0) {
       parsed.unlockedLevels = [parsed.assignedLevel || '6A'];
+    }
+    if (!parsed.assignedSet) {
+      parsed.assignedSet = 1;
+    }
+    if (!parsed.lastSelectedSet) {
+      parsed.lastSelectedSet = parsed.assignedSet || 1;
     }
     return parsed;
   } catch (e) {
@@ -66,6 +74,46 @@ export function saveStudentProfile(profile: StudentProfile): void {
 }
 
 /**
+ * Retrieves all saved student profiles recorded on this device.
+ */
+export function getAllSavedProfiles(): StudentProfile[] {
+  try {
+    const allProfilesRaw = localStorage.getItem(STORAGE_KEYS.ALL_PROFILES);
+    if (!allProfilesRaw) return [];
+    const allProfilesMap: Record<string, StudentProfile> = JSON.parse(allProfilesRaw);
+    return Object.values(allProfilesMap).sort((a, b) => {
+      const dateA = a.lastActiveDate || a.createdAt || '';
+      const dateB = b.lastActiveDate || b.createdAt || '';
+      return dateB.localeCompare(dateA);
+    });
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * Deletes a specific saved student profile by name from this device.
+ */
+export function deleteSavedProfileByName(name: string): void {
+  try {
+    const allProfilesRaw = localStorage.getItem(STORAGE_KEYS.ALL_PROFILES);
+    if (!allProfilesRaw) return;
+    const allProfilesMap: Record<string, StudentProfile> = JSON.parse(allProfilesRaw);
+    const key = name.trim().toLowerCase();
+    delete allProfilesMap[key];
+    localStorage.setItem(STORAGE_KEYS.ALL_PROFILES, JSON.stringify(allProfilesMap));
+
+    // If deleting active profile, clear active session
+    const current = loadStudentProfile();
+    if (current && current.name.trim().toLowerCase() === key) {
+      localStorage.removeItem(STORAGE_KEYS.PROFILE);
+    }
+  } catch (e) {
+    console.error('Failed to delete saved profile', e);
+  }
+}
+
+/**
  * Retrieves a previously saved student profile by name from this device.
  */
 export function findStudentProfileByName(name: string): StudentProfile | null {
@@ -81,6 +129,24 @@ export function findStudentProfileByName(name: string): StudentProfile | null {
 }
 
 /**
+ * Updates student's last accessed level and set, persisting to device storage.
+ */
+export function updateStudentLastPosition(
+  profile: StudentProfile,
+  levelId: KumonLevelId,
+  setNumber: number
+): StudentProfile {
+  const updated: StudentProfile = {
+    ...profile,
+    lastSelectedLevel: levelId,
+    lastSelectedSet: setNumber,
+    lastActiveDate: new Date().toISOString().split('T')[0],
+  };
+  saveStudentProfile(updated);
+  return updated;
+}
+
+/**
  * Clears the active session from device storage.
  */
 export function clearStudentProfile(): void {
@@ -93,7 +159,7 @@ export function clearStudentProfile(): void {
 
 /**
  * Records a completed worksheet attempt, saves score & progress,
- * and automatically unlocks subsequent Kumon levels on the device.
+ * and automatically unlocks subsequent Kumon levels and sets on the device.
  */
 export function recordWorksheetAttempt(
   profile: StudentProfile,
@@ -108,17 +174,28 @@ export function recordWorksheetAttempt(
   ];
 
   let nextAssignedLevel = profile.assignedLevel;
+  let nextAssignedSet = profile.assignedSet || 1;
+  let nextLastSet = attempt.setNumber;
 
   if (attempt.passed && !profile.isTrial) {
-    const currentIndex = levelOrder.indexOf(attempt.levelId);
-    if (currentIndex >= 0 && currentIndex < levelOrder.length - 1) {
-      const nextLevel = levelOrder[currentIndex + 1];
-      if (!updatedUnlocked.includes(nextLevel)) {
-        updatedUnlocked.push(nextLevel);
-      }
-      // If current completed level is the assigned level, advance assigned level
+    if (attempt.setNumber < 5) {
+      nextLastSet = attempt.setNumber + 1;
       if (attempt.levelId === profile.assignedLevel) {
-        nextAssignedLevel = nextLevel;
+        nextAssignedSet = Math.max(nextAssignedSet, attempt.setNumber + 1);
+      }
+    } else if (attempt.setNumber === 5) {
+      // Completed level! Advance to next level
+      const currentIndex = levelOrder.indexOf(attempt.levelId);
+      if (currentIndex >= 0 && currentIndex < levelOrder.length - 1) {
+        const nextLevel = levelOrder[currentIndex + 1];
+        if (!updatedUnlocked.includes(nextLevel)) {
+          updatedUnlocked.push(nextLevel);
+        }
+        if (attempt.levelId === profile.assignedLevel) {
+          nextAssignedLevel = nextLevel;
+          nextAssignedSet = 1;
+          nextLastSet = 1;
+        }
       }
     }
   }
@@ -140,7 +217,9 @@ export function recordWorksheetAttempt(
   const updatedProfile: StudentProfile = {
     ...profile,
     assignedLevel: nextAssignedLevel,
+    assignedSet: nextAssignedSet,
     lastSelectedLevel: attempt.levelId,
+    lastSelectedSet: nextLastSet,
     attempts: updatedAttempts,
     unlockedLevels: updatedUnlocked,
     streakDays: streak,

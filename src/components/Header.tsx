@@ -159,7 +159,9 @@ export const Header: React.FC<HeaderProps> = ({
                 {isAdmin ? 'Admin Account' : profile.name}
               </p>
               <p className="text-[10px] font-semibold text-emerald-600 dark:text-emerald-400">
-                {isAdmin ? 'Access: Full (bajuri39)' : `Level: ${profile.assignedLevel}`}
+                {isAdmin
+                  ? 'Access: Full (bajuri39)'
+                  : `Level ${profile.lastSelectedLevel || profile.assignedLevel} • Set ${profile.lastSelectedSet || profile.assignedSet || 1}`}
               </p>
             </div>
             <button

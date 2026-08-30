@@ -498,38 +498,7 @@ export const WorksheetPlayer: React.FC<WorksheetPlayerProps> = ({
             </div>
 
             {/* Question Body */}
-            <div className="my-3 space-y-3">
-              {/* Step-by-Step Guide for Problem #1 / Example Guidance */}
-              {(currentProblem.stepByStepGuide || currentProblem.workedExample) && (
-                <div className="p-3.5 rounded-xl bg-indigo-50/90 dark:bg-indigo-950/60 border-2 border-indigo-200 dark:border-indigo-800 shadow-xs space-y-2">
-                  <div className="flex items-center gap-1.5 text-indigo-900 dark:text-indigo-200">
-                    <Sparkles className="w-4 h-4 text-indigo-600 dark:text-indigo-400 shrink-0" />
-                    <span className="font-extrabold text-xs uppercase tracking-wide">
-                      {currentProblemIdx === 0 ? 'Contoh Model & Langkah Pengerjaan (Soal No. 1)' : 'Panduan Cara Pengerjaan'}
-                    </span>
-                  </div>
-
-                  {currentProblem.workedExample && (
-                    <p className="text-xs text-indigo-800 dark:text-indigo-300 font-medium">
-                      {currentProblem.workedExample}
-                    </p>
-                  )}
-
-                  {currentProblem.stepByStepGuide && currentProblem.stepByStepGuide.length > 0 && (
-                    <div className="space-y-1.5 pt-1 border-t border-indigo-200/60 dark:border-indigo-800/60">
-                      {currentProblem.stepByStepGuide.map((step, sIdx) => (
-                        <div key={sIdx} className="flex items-start gap-2 text-xs text-slate-700 dark:text-slate-300">
-                          <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-indigo-600 text-white text-[10px] font-bold shrink-0 mt-0.5">
-                            {sIdx + 1}
-                          </span>
-                          <span className="leading-snug">{step}</span>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              )}
-
+            <div className="my-4 space-y-3">
               <div className="text-xl font-extrabold text-slate-900 dark:text-white leading-relaxed font-mono whitespace-pre-line">
                 {currentProblem.question}
               </div>

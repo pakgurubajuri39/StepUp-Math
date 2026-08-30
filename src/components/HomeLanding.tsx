@@ -115,7 +115,7 @@ export const HomeLanding: React.FC<HomeLandingProps> = ({
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
-                <span>10 Soal Berjenjang & Panduan Langkah</span>
+                <span>10 Soal Berjenjang Penguasaan Mandiri</span>
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
@@ -211,10 +211,10 @@ export const HomeLanding: React.FC<HomeLandingProps> = ({
               <Layers className="w-5 h-5" />
             </div>
             <h3 className="text-sm font-bold text-slate-900 dark:text-white">
-              10 Soal Berjenjang & Panduan Kerja
+              10 Soal Berjenjang Penguasaan Mandiri
             </h3>
             <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-              Tiap lembar kerja terdiri dari 10 soal dengan tingkat kesulitan bertahap. Soal No. 1 selalu dilengkapi contoh cara pengerjaan untuk memandu anak secara mandiri.
+              Tiap lembar kerja terdiri dari 10 soal dengan tingkat kesulitan bertahap, melatih kemandirian dan daya analisis berpikir siswa tanpa distraksi.
             </p>
           </div>
 

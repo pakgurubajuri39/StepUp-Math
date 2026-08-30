@@ -269,35 +269,46 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
               </div>
 
               {/* Questions List preview with Answer Keys */}
-              <div className="space-y-2 max-h-[380px] overflow-y-auto pr-1">
+              <div className="space-y-2.5 max-h-[420px] overflow-y-auto pr-1">
                 {activeWorksheet.problems.map((p, idx) => (
                   <div
                     key={p.id}
-                    className="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700/80 text-xs space-y-1"
+                    className={`p-3 rounded-lg border text-xs space-y-2 ${
+                      idx === 0
+                        ? 'bg-white dark:bg-slate-800/70 border-indigo-200 dark:border-indigo-900/60 ring-1 ring-indigo-500/20'
+                        : 'bg-slate-50 dark:bg-slate-800/40 border-slate-200 dark:border-slate-700/80'
+                    }`}
                   >
                     <div className="flex items-start justify-between gap-2">
-                      <div className="flex items-center gap-2">
-                        <span className="w-4 h-4 rounded bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 font-bold text-[9px] flex items-center justify-center shrink-0 font-mono">
+                      <div className="flex items-start gap-2">
+                        <span className="w-5 h-5 rounded bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 font-bold text-[10px] flex items-center justify-center shrink-0 font-mono mt-0.5">
                           {idx + 1}
                         </span>
-                        <span className="font-bold text-slate-900 dark:text-white font-mono text-xs">
-                          {p.question}
-                        </span>
+                        <div>
+                          <span className="font-bold text-slate-900 dark:text-white font-mono text-xs block leading-snug">
+                            {p.question}
+                          </span>
+                          {p.subtitle && (
+                            <span className="text-[10px] text-slate-400 italic block mt-0.5">
+                              {p.subtitle}
+                            </span>
+                          )}
+                        </div>
                       </div>
 
-                      <span className="px-1.5 py-0.2 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 font-bold text-[10px] shrink-0 font-mono">
+                      <span className="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 font-bold text-[10px] shrink-0 font-mono">
                         Kunci: {p.correctAnswer}
                       </span>
                     </div>
 
                     {p.options && (
-                      <p className="text-[10px] text-slate-500 pl-6 font-mono">
+                      <p className="text-[10px] text-slate-500 pl-7 font-mono">
                         Pilihan: {p.options.join(' | ')}
                       </p>
                     )}
 
                     {p.explanation && (
-                      <p className="text-[10px] text-slate-500 dark:text-slate-400 italic pl-6">
+                      <p className="text-[10px] text-slate-500 dark:text-slate-400 italic pl-7">
                         Pembahasan: {p.explanation}
                       </p>
                     )}

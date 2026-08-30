@@ -110,46 +110,12 @@ export function generateWorksheetPDF(
   renderHeader(false);
 
   let currentY = margin + 48;
-
-  // Step-by-Step Guide for Problem #1 / Model Example Banner on Student Page
-  const prob1 = worksheet.problems[0];
-  if (prob1 && (prob1.stepByStepGuide || prob1.workedExample)) {
-    const guideBoxHeight = prob1.stepByStepGuide ? 24 : 16;
-    doc.setFillColor(238, 242, 255); // Indigo-50
-    doc.setDrawColor(199, 210, 254); // Indigo-200
-    doc.roundedRect(margin, currentY, pageWidth - margin * 2, guideBoxHeight, 2, 2, 'FD');
-
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(8.5);
-    doc.setTextColor(67, 56, 202);
-    doc.text('★ CONTOH MODEL & LANGKAH PENGERJAAN (SOAL NO. 1):', margin + 3, currentY + 5);
-
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(7.5);
-    doc.setTextColor(51, 65, 85);
-
-    let stepY = currentY + 9;
-    if (prob1.workedExample) {
-      doc.text(`Prinsip: ${prob1.workedExample}`, margin + 4, stepY);
-      stepY += 4.5;
-    }
-
-    if (prob1.stepByStepGuide) {
-      prob1.stepByStepGuide.slice(0, 3).forEach((step) => {
-        doc.text(`• ${step}`, margin + 4, stepY);
-        stepY += 4;
-      });
-    }
-
-    currentY += guideBoxHeight + 4;
-  }
-
   const colWidth = (pageWidth - margin * 2 - 8) / 2;
+  const boxHeight = 38;
 
   worksheet.problems.forEach((problem, index) => {
     const isLeftCol = index % 2 === 0;
     const xPos = isLeftCol ? margin : margin + colWidth + 8;
-    const boxHeight = 26;
 
     // Box for problem
     doc.setDrawColor(226, 232, 240);
@@ -158,26 +124,26 @@ export function generateWorksheetPDF(
 
     // Number badge
     doc.setFillColor(241, 245, 249);
-    doc.roundedRect(xPos + 2, currentY + 2, 7, 5.5, 1, 1, 'F');
+    doc.roundedRect(xPos + 2.5, currentY + 2.5, 7, 5.5, 1, 1, 'F');
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(8);
     doc.setTextColor(100, 116, 139);
-    doc.text(`${index + 1}`, xPos + 5.5, currentY + 6, { align: 'center' });
+    doc.text(`${index + 1}`, xPos + 6, currentY + 6.5, { align: 'center' });
 
     // Question text
     doc.setFont('helvetica', 'bold');
-    doc.setFontSize(9);
+    doc.setFontSize(9.5);
     doc.setTextColor(15, 23, 42);
 
-    const lines = doc.splitTextToSize(problem.question, colWidth - 12);
-    doc.text(lines, xPos + 11, currentY + 6);
+    const lines = doc.splitTextToSize(problem.question, colWidth - 14);
+    doc.text(lines, xPos + 12, currentY + 6.8);
 
     // Visual dots if any (e.g. 6A/5A)
     if (problem.visualDots) {
       doc.setFillColor(30, 41, 59);
       for (let d = 0; d < problem.visualDots; d++) {
         const dotX = xPos + 13 + (d % 5) * 5.5;
-        const dotY = currentY + 13 + Math.floor(d / 5) * 5.5;
+        const dotY = currentY + 16 + Math.floor(d / 5) * 5.5;
         doc.circle(dotX, dotY, 1.6, 'F');
       }
     }
@@ -187,27 +153,27 @@ export function generateWorksheetPDF(
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(8);
       doc.setTextColor(71, 85, 105);
-      const optText = problem.options.map((opt, i) => `${String.fromCharCode(65 + i)}. ${opt}`).join('  ');
-      doc.text(optText, xPos + 11, currentY + 14);
+      const optText = problem.options.map((opt, i) => `${String.fromCharCode(65 + i)}. ${opt}`).join('   ');
+      doc.text(optText, xPos + 12, currentY + 18);
     }
 
     // Answer writing space (Kotak Jawaban)
     doc.setDrawColor(148, 163, 184);
     doc.setFillColor(248, 250, 252);
-    doc.roundedRect(xPos + colWidth - 26, currentY + boxHeight - 8, 23, 6, 1, 1, 'FD');
+    doc.roundedRect(xPos + colWidth - 28, currentY + boxHeight - 8.5, 25, 6.5, 1, 1, 'FD');
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(6.5);
     doc.setTextColor(148, 163, 184);
-    doc.text('Jawaban:', xPos + colWidth - 24, currentY + boxHeight - 3.8);
+    doc.text('Jawaban:', xPos + colWidth - 26, currentY + boxHeight - 4.2);
 
     if (!isLeftCol || index === worksheet.problems.length - 1) {
-      currentY += boxHeight + 3.5;
+      currentY += boxHeight + 4;
     }
   });
 
   renderFooter(1, options.includeAnswerKey ? 2 : 1);
 
-  // --- PAGE 2: ADMIN ANSWER KEY & DETAILED STEP-BY-STEP GUIDES ---
+  // --- PAGE 2: ADMIN ANSWER KEY & CONTOH MODEL (SOAL NO. 1) ---
   if (options.includeAnswerKey) {
     doc.addPage();
     renderHeader(true);
@@ -217,20 +183,19 @@ export function generateWorksheetPDF(
     // Header bar for Key page
     doc.setDrawColor(199, 210, 254);
     doc.setFillColor(238, 242, 255);
-    doc.roundedRect(margin, keyY, pageWidth - margin * 2, 8, 1.5, 1.5, 'FD');
+    doc.roundedRect(margin, keyY, pageWidth - margin * 2, 7.5, 1.5, 1.5, 'FD');
     doc.setFont('helvetica', 'bold');
-    doc.setFontSize(9);
+    doc.setFontSize(8.5);
     doc.setTextColor(67, 56, 202);
-    doc.text('KUNCI JAWABAN & CARA PENGERJAAN LENGKAP & RINCI', margin + 4, keyY + 5.5);
+    doc.text('LEMBAR KUNCI JAWABAN & CONTOH MODEL (GURU & ADMIN)', margin + 4, keyY + 5.2);
 
-    keyY += 12;
+    keyY += 10.5;
 
     worksheet.problems.forEach((p, idx) => {
-      const hasSteps = p.stepByStepGuide && p.stepByStepGuide.length > 0;
-      const cardHeight = hasSteps ? 38 : 22;
+      const cardHeight = p.explanation ? 20 : 14;
 
       // Check page boundary
-      if (keyY + cardHeight > pageHeight - margin - 12) {
+      if (keyY + cardHeight > pageHeight - margin - 10) {
         renderFooter(2, 2);
         doc.addPage();
         renderHeader(true);
@@ -241,54 +206,36 @@ export function generateWorksheetPDF(
       doc.setDrawColor(226, 232, 240);
       doc.roundedRect(margin, keyY, pageWidth - margin * 2, cardHeight, 1.5, 1.5, 'FD');
 
-      // Index and Answer
+      // Index badge
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(8.5);
       doc.setTextColor(15, 23, 42);
-      doc.text(`No. ${idx + 1}`, margin + 4, keyY + 6);
+      doc.text(`No. ${idx + 1}`, margin + 4, keyY + 5.5);
 
       // Kunci badge
       doc.setFillColor(220, 252, 231); // green-100
-      doc.roundedRect(margin + 18, keyY + 2, 34, 5.5, 1, 1, 'F');
+      doc.roundedRect(margin + 18, keyY + 1.8, 32, 5.2, 1, 1, 'F');
       doc.setTextColor(22, 101, 52); // green-800
-      doc.text(`Kunci: ${p.correctAnswer}`, margin + 20, keyY + 5.8);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(7.5);
+      doc.text(`Kunci: ${p.correctAnswer}`, margin + 20, keyY + 5.3);
 
       // Question preview
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(7.5);
       doc.setTextColor(71, 85, 105);
       const qClean = p.question.replace(/\n/g, ' ');
-      doc.text(`Soal: ${qClean.substring(0, 65)}${qClean.length > 65 ? '...' : ''}`, margin + 56, keyY + 5.8);
+      doc.text(`Soal: ${qClean.substring(0, 70)}${qClean.length > 70 ? '...' : ''}`, margin + 54, keyY + 5.3);
 
-      let textOffset = keyY + 11;
-
-      // Step by Step guide details (Cara Pengerjaan Lengkap & Rinci)
-      if (p.stepByStepGuide && p.stepByStepGuide.length > 0) {
-        doc.setFont('helvetica', 'bold');
-        doc.setFontSize(7.5);
-        doc.setTextColor(67, 56, 202);
-        doc.text('Cara Pengerjaan Rinci:', margin + 4, textOffset);
-        textOffset += 4;
-
-        doc.setFont('helvetica', 'normal');
-        doc.setFontSize(7);
-        doc.setTextColor(51, 65, 85);
-        p.stepByStepGuide.forEach((step) => {
-          doc.text(`• ${step}`, margin + 6, textOffset);
-          textOffset += 3.8;
-        });
-      }
-
-      // General explanation
-      if (p.explanation && (!p.stepByStepGuide || p.stepByStepGuide.length === 0)) {
+      if (p.explanation) {
         doc.setFont('helvetica', 'italic');
-        doc.setFontSize(7.5);
+        doc.setFontSize(7);
         doc.setTextColor(100, 116, 139);
-        const expLines = doc.splitTextToSize(`Pembahasan: ${p.explanation}`, pageWidth - margin * 2 - 8);
-        doc.text(expLines, margin + 4, textOffset);
+        const expClean = p.explanation.replace(/\n/g, ' ');
+        doc.text(`Pembahasan: ${expClean.substring(0, 95)}`, margin + 4, keyY + 11.5);
       }
 
-      keyY += cardHeight + 3;
+      keyY += cardHeight + 2.5;
     });
 
     renderFooter(2, 2);
